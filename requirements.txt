@@ -1,7 +1,5 @@
 SoundFile
-torchaudio
 munch
-torch
 pydub
 pyyaml
 librosa
