@@ -1,4 +1,5 @@
 SoundFile
+torchaudio
 munch
 pydub
 pyyaml
