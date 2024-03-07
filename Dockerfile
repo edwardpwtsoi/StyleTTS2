@@ -4,7 +4,7 @@ LABEL authors="edward.tsoi"
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y \
-	ca-certificates python3-dev git wget sudo ninja-build espeak-ng git-lfs
+	ca-certificates python3-dev git curl wget sudo ninja-build espeak-ng git-lfs
 RUN ln -sv /usr/bin/python3 /usr/bin/python
 
 # create a non-root user
