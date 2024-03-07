@@ -18,7 +18,7 @@ WORKDIR /home/appuser
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
-RUN ./aws/install
+RUN sudo ./aws/install
 
 RUN git lfs install
 RUN git clone https://huggingface.co/yl4579/StyleTTS2-LibriTTS
