@@ -1,5 +1,4 @@
 SoundFile
-torchaudio==2.1.0
 munch
 pydub
 pyyaml
