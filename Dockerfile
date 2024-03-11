@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     espeak-ng
 RUN ln -sv /usr/bin/python3 /usr/bin/python
-RUN ln -sv /usr/bin/pip3 /usr/bin/pip
 
 # create a non-root user
 ARG USER_ID=1000
