@@ -37,8 +37,8 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  "https://repo.anaconda.com/miniconda/Min
 RUN chmod +x ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p /home/appuser/.local/conda && \
     rm ~/miniconda.sh && \
-    /home/appuser/.local/conda install -y python=${PYTHON_VERSION} cmake conda-build pyyaml numpy ipython && \
-    /home/appuser/.local/conda clean -ya
+    /home/appuser/.local/conda/bin/conda install -y python=${PYTHON_VERSION} cmake conda-build pyyaml numpy ipython && \
+    /home/appuser/.local/conda/bin/conda  clean -ya
 
 
 RUN /home/appuser/.local/conda/bin/python -m pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
