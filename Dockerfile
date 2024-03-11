@@ -28,4 +28,4 @@ RUN mkdir -p StyleTTS2/Models/LibriTTS
 RUN mv StyleTTS2-LibriTTS/Models/LibriTTS StyleTTS2/Models/LibriTTS
 RUN rm -r StyleTTS2-LibriTTS
 
-WORKDIR /home/appuser/StyleTTS2
+WORKDIR /workspace/StyleTTS2
