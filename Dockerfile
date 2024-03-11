@@ -37,11 +37,10 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  "https://repo.anaconda.com/miniconda/Min
 RUN chmod +x ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p /home/appuser/.local/conda && \
     rm ~/miniconda.sh && \
-    /home/appuser/.local/conda/bin/conda install -y python=${PYTHON_VERSION} cmake conda-build pyyaml numpy ipython && \
-    /home/appuser/.local/conda/bin/conda  clean -ya
+    /home/appuser/.local/conda/bin/conda install -y python=${PYTHON_VERSION} -n appuser cmake conda-build pyyaml numpy ipython && \
+    /home/appuser/.local/conda/bin/conda clean -ya
 
-
-RUN /home/appuser/.local/conda/bin/conda install pytorch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 pytorch-cuda=12.1 -c pytorch -c nvidia
+RUN /home/appuser/.local/conda/bin/conda install -n appuser pytorch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 pytorch-cuda=12.1 -c pytorch -c nvidia
 
 RUN git clone https://github.com/edwardpwtsoi/StyleTTS2
 RUN /home/appuser/.local/conda/bin/python -m pip install -r StyleTTS2/requirements.txt
