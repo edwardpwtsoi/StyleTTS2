@@ -33,6 +33,7 @@ RUN sudo ./aws/install
 RUN git lfs install
 RUN git clone https://huggingface.co/yl4579/StyleTTS2-LibriTTS
 
+ENV PATH="/home/appuser/.local/bin:${PATH}"
 RUN pip3 install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 
 RUN git clone https://github.com/edwardpwtsoi/StyleTTS2
