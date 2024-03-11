@@ -37,7 +37,8 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  "https://repo.anaconda.com/miniconda/Min
 RUN chmod +x ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p /home/appuser/.local/conda && \
     rm ~/miniconda.sh && \
-    /home/appuser/.local/conda/bin/conda install -y python=${PYTHON_VERSION} -n appuser cmake conda-build pyyaml numpy ipython && \
+    /home/appuser/.local/conda/bin/conda create -n appuser python=${PYTHON_VERSION} && \
+    /home/appuser/.local/conda/bin/conda install -n appuser cmake conda-build pyyaml numpy ipython && \
     /home/appuser/.local/conda/bin/conda clean -ya
 
 RUN /home/appuser/.local/conda/bin/conda install -n appuser pytorch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 pytorch-cuda=12.1 -c pytorch -c nvidia
