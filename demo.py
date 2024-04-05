@@ -80,9 +80,6 @@ class ModelPlaceholder:
         tokens = textcleaner(ps)
         if len(tokens) >= 510:
             raise gr.Error("Input is too Long")
-        tokens.insert(0, 0)
-        tokens.append(0)
-
         tokens = torch.LongTensor(tokens).to(device).unsqueeze(0)
 
         with torch.no_grad():
@@ -163,6 +160,7 @@ class ModelRepresentation:
         path_to_references = os.path.join(root_dir, "references")
         if os.path.exists(path_to_references):
             self._references = [x for x in os.listdir(os.path.join(root_dir, "references")) if x.endswith(".wav")]
+            self._references.sort(key=lambda x: x.rsplit(".", 1)[0].rsplit("_", 1))
         else:
             self._references = []
 
@@ -230,7 +228,7 @@ if __name__ == "__main__":
     model_dir = ModelDirectory(args.model_dir)
 
     with gr.Blocks(title="StyleTTS2", css="footer{display:none !important}", theme=theme) as demo:
-        gr.Markdown("# Models")
+        gr.Markdown("# Model")
         dropdown = gr.Dropdown(choices=model_dir.model_names, label="Select a Model")
 
         def update_model_params(model_name, progress_bar=gr.Progress()):
@@ -272,12 +270,9 @@ if __name__ == "__main__":
             ref_1_dropdown.input(update_audio, inputs=[dropdown, ref_1_dropdown], outputs=ref_1)
             ref_2_dropdown.input(update_audio, inputs=[dropdown, ref_2_dropdown], outputs=ref_2)
 
-            with gr.Column(scale=1):
-                operations = gr.Dropdown(choices=["add"], label="operations")
-
         dropdown.input(update_model_params, inputs=dropdown, outputs=[ref_1_dropdown, ref_2_dropdown])
 
-        def synthesize(model_name, text, ref_1, ref_2, operations, lngsteps, progress=gr.Progress()):
+        def synthesize(model_name, text, ref_1, ref_2, lngsteps, progress=gr.Progress()):
             model_repr = model_dir[model_name]
             if ref_1 == "None":
                 raise gr.Error("Please select a Reference")
@@ -285,10 +280,7 @@ if __name__ == "__main__":
                 style_1 = model.compute_style(os.path.join(model_repr._root_dir, "references", ref_1))
             if ref_2 != "None":
                 style_2 = model.compute_style(os.path.join(model_repr._root_dir, "references", ref_2))
-                if operations == "add":
-                    ref_s = (style_1 + style_2) / 2
-                else:
-                    raise gr.Error("Please select a operations")
+                ref_s = (style_1 + style_2) / 2
             else:
                 ref_s = style_1
 
@@ -315,6 +307,6 @@ if __name__ == "__main__":
                 audio = gr.Audio(interactive=False, label="Generated Audio",
                                  waveform_options={'waveform_progress_color': '#3C82F6'})
                 btn = gr.Button("Generate", variant="primary")
-                btn.click(synthesize, inputs=[dropdown, inp, ref_1_dropdown, ref_2_dropdown, operations, diffusion_steps], outputs=[audio])
+                btn.click(synthesize, inputs=[dropdown, inp, ref_1_dropdown, ref_2_dropdown, diffusion_steps], outputs=[audio])
 
     demo.queue(api_open=False, max_size=15).launch(show_api=False)
